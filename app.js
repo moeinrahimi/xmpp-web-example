@@ -1,16 +1,16 @@
 var XMPP = require('stanza.io');
-var Jingle = require('jingle');
 var attachMediaStream = require('attachmediastream');
 var client;
 var localMedia = require('localMedia');
 var localMedia = new localMedia()
 localMedia.on('localStream', function (stream) {
-  console.log('localstream')
-    attachMediaStream(stream, document.getElementById('localVideo'), {
-        mirror: true,
-        muted: true
-    });
+  attachMediaStream(stream, document.getElementById('localVideo'), {
+      mirror: true,
+      video:true ,
+      audio:true 
+      // muted: true
   });
+});
 var loginInfo = document.getElementById('loginInfo');
 var inlog = console.log.bind(console, '<<in');
 var outlog = console.log.bind(console, 'out>>');;
@@ -28,7 +28,6 @@ loginInfo.onsubmit = function (e) {
       wsURL = url;
       transport = 'websocket';
   }
-  var jingle = new Jingle();
 
   client = XMPP.createClient({
     jid: jid,
@@ -48,16 +47,17 @@ loginInfo.onsubmit = function (e) {
   });
   client.on('jingle:remotestream:added', function (session, stream) {
     console.log(stream,'ssss')
+    // attachMediaStream(stream, document.getElementById('remoteVideo'));
     var video = document.querySelector('#remoteVideo');
     video.srcObject = stream;
 });
 client.on('jingle:incoming', function (session) {
   console.log(session , 'aaaaaaaa')
   // session.pc.addStream(localMedia.localStream);
-    if (session.addStream) {
-      console.log('injaaaaaaa',session,localMedia.localStream)
-        session.addStream(localMedia.localStream);
-    }
+    // if (session.addStream) {
+    //   console.log('injaaaaaaa',session,localMedia.localStream)
+    //     session.addStream(localMedia.localStream);
+    // }
     session.accept();
 });
 client.connect();
@@ -65,8 +65,10 @@ var callInfo = document.getElementById('callInfo');
 callInfo.onsubmit = function (e) {
   e.preventDefault();
   var jid = document.getElementById('peer').value;
-  navigator.getUserMedia({ video: true },
+  navigator.getUserMedia({ audio: true },
     function(stream) {
+    // localMedia.start(null, function (stream) {
+
       var sess = client.jingle.createMediaSession(jid);
       sess.addStream(stream);
       sess.start();
