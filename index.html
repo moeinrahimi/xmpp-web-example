@@ -1,0 +1,54 @@
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>stanza.io — Jingle Interop Testing</title>
+    <!-- <script src="attachmediastream.bundle.js"></script> -->
+    
+    <!-- <script src="localmedia.bundle.js"></script> -->
+    
+    <style>
+    video {
+      width: 320px;
+    }
+    #received {
+      display: none;
+    }
+    </style>
+  </head>
+  <body>
+    <div id="settings">
+      <h1>Connection Settings</h1>
+      <form id="loginInfo">
+        <label>JID: <input id="jid" type="text" name="jid" value="admin@tht"/></label>
+        <label>Password: <input id="password" type="password" name="password" value="moe2012@" /></label>
+        <label>WebSocket URL: <input id="url" type="text" name="url"  value="ws://192.168.88.58:5280/ws" /></label>
+        <input id="connect" type="submit" value="Connect" />
+      </form>
+      <h2>Start Video Session</h2>
+      <form id="callInfo">
+        <label>JID: <input id="peer" type="text" name="peer" placeholder="otherperson@example.com"/></label>
+        <input id="call" type="submit" value="Call"/>
+      </form>
+      <h2>Send a file</h2>
+      <form id="fileInfo">
+        <label>JID: <input id="filepeer" type="text" name="peer" placeholder="otherperson@example.com"/></label>
+        <input type="file" id="files" name="files"/>
+      </form>
+      <form id="snapshot">
+        <label>JID: <input id="snappeer" type="text" name="peer" placeholder="otherperson@example.com"/></label>
+        <input id="snapshot" type="submit" value="Send snapshot"/>
+      </form>
+      <a id="received"></a>
+    </div>
+
+    <p id="myJID"></p>
+
+    <h1>Local Video</h1>
+    <video autoplay="true" id="localVideo"></video>
+
+    <h2>Remote Video</h2>
+    <video autoplay="true" id="remoteVideo"></video>
+
+    <script src="bundle.js"></script>
+  </body>
+</html>
